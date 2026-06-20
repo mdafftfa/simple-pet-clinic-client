@@ -38,12 +38,6 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
-                <Route path="/pets" element={
-                    <ProtectedRoute>
-                        <DashboardPage />
-                    </ProtectedRoute>
-                }
-                />
                 <Route path="/profile" element={
                     <ProtectedRoute>
                         <ProfilePage />

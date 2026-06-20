@@ -7,3 +7,7 @@ export const login = async (credentials: any) => {
 export const register = async (userData: any) => {
     return await api.post('/auth/register', userData);
 };
+
+export const getMyProfile = async () => {
+    return await api.get('/customer/me');
+};
