@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children, allowedRoles }: { children: React.Rea
     const userRole = localStorage.getItem("role");
 
     if (!token) return <Navigate to="/login" replace />;
-
+    
     if (allowedRoles && !allowedRoles.includes(userRole || "")) {
         return <Navigate to="/dashboard" replace />;
     }

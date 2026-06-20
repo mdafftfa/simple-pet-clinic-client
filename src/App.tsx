@@ -12,6 +12,7 @@ import ProfilePage from "@/pages/customer/ProfilePage.tsx";
 import ReservationsPage from "@/pages/customer/ReservationsPage.tsx";
 import ShopPage from "@/pages/customer/ShopPage.tsx";
 import TransactionsPage from "@/pages/customer/TransactionsPage.tsx";
+import {PublicRoute} from "@/routes/PublicRoute.tsx";
 
 function App() {
     return (
@@ -20,8 +21,16 @@ function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
 
                 {/*Customer*/}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={
+                    <PublicRoute>
+                        <LoginPage />
+                    </PublicRoute>
+                } />
+                <Route path="/register" element={
+                    <PublicRoute>
+                        <RegisterPage />
+                    </PublicRoute>
+                } />
 
                 <Route path="/dashboard" element={
                         <ProtectedRoute>
@@ -66,7 +75,7 @@ function App() {
                 <Route
                     path="/cashier/dashboard"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Cashier"]}>
                             <DoctorDashboardPage />
                         </ProtectedRoute>
                     }
@@ -74,7 +83,7 @@ function App() {
                 <Route
                     path="/cashier/transactions"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Cashier"]}>
                             <DoctorReservationsPage />
                         </ProtectedRoute>
                     }
@@ -82,7 +91,7 @@ function App() {
                 <Route
                     path="/cashier/confirmation"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Cashier"]}>
                             <MedicalRecordPage />
                         </ProtectedRoute>
                     }
@@ -91,7 +100,7 @@ function App() {
                 <Route
                     path="/doctor/dashboard"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Doctor"]}>
                             <DoctorDashboardPage />
                         </ProtectedRoute>
                     }
@@ -99,7 +108,7 @@ function App() {
                 <Route
                     path="/doctor/reservations"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Doctor"]}>
                             <DoctorReservationsPage />
                         </ProtectedRoute>
                     }
@@ -107,7 +116,7 @@ function App() {
                 <Route
                     path="/doctor/medical-record"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Doctor"]}>
                             <MedicalRecordPage />
                         </ProtectedRoute>
                     }
@@ -116,7 +125,7 @@ function App() {
                 <Route
                     path="/groomer/dashboard"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Groomer"]}>
                             <DoctorDashboardPage />
                         </ProtectedRoute>
                     }
@@ -124,15 +133,15 @@ function App() {
                 <Route
                     path="/groomer/reservations"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Groomer"]}>
                             <DoctorReservationsPage />
                         </ProtectedRoute>
                     }
                 />
                 <Route
-                    path="/groomer/medical-record"
+                    path="/groomer/grooming-record"
                     element={
-                        <ProtectedRoute>
+                        <ProtectedRoute allowedRoles={["Groomer"]}>
                             <MedicalRecordPage />
                         </ProtectedRoute>
                     }

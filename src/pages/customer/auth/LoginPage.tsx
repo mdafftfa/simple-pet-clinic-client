@@ -24,7 +24,7 @@ export default function LoginPage() {
             localStorage.setItem("token", response.data.result.token);
 
             alert("Login Berhasil!");
-            window.location.href = "/dashboard"; // Redirect ke dashboard
+            window.location.href = "/dashboard";
         } catch (error) {
             alert("Login Gagal: Periksa email atau password Anda.");
         }
