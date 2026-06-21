@@ -10,13 +10,13 @@
 ### 1.3 Staff Login
 ![staff_login](assets/staff-login.png)
 
-## 1. Customer
-### 1.1 Customer Dashboard
+## 2. Customer
+### 2.1 Customer Dashboard
 ![customer_dashboard](assets/customer-dashboard.png)
 
 
-## 2. Cashier
+## 3. Cashier
 
-## 3. Doctor
+## 4. Doctor
 
-## 4. Groomer
+## 5. Groomer
