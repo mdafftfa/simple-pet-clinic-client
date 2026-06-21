@@ -1,110 +1,103 @@
-﻿import { useState } from "react";
-import { Box, Button, Flex, Heading, Input, Text, VStack } from "@chakra-ui/react";
-import { useColorModeValue } from "../../../components/ui/color-mode.tsx";
-import {login} from "@/services/authService.ts";
+﻿import {
+    Box,
+    Button,
+    Flex,
+    Heading,
+    Input,
+    Text,
+    VStack,
+    Stack,
+    Field
+} from "@chakra-ui/react";
+import { login } from "@/services/authService.ts";
 
 export default function StaffLoginPage() {
-    const [loginType, setLoginType] = useState<'customer' | 'staff'>('customer');
-
-    const bgBody = useColorModeValue("gray.50", "gray.900");
-    const bgForm = useColorModeValue("white", "gray.800");
-    const textSubtitle = useColorModeValue("gray.500", "gray.400");
-    const bgToggleContainer = useColorModeValue("gray.100", "gray.700");
-    const textLabel = useColorModeValue("gray.700", "gray.300");
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const formData = new FormData(e.currentTarget);
-            const email = formData.get("email");
-            const password = formData.get("password");
+            const email = formData.get("email") as string;
+            const password = formData.get("password") as string;
 
             const response = await login({ email, password });
 
             localStorage.setItem("token", response.data.result.token);
+            localStorage.setItem("role", response.data.result.roles[0]);
 
             alert("Login Berhasil!");
-            window.location.href = "/dashboard"; // Redirect ke dashboard
+            window.location.href = "/dashboard";
         } catch (error) {
             alert("Login Gagal: Periksa email atau password Anda.");
         }
     };
 
-
     return (
-        <Flex minH="100vh" align="center" justify="center" bg={bgBody} p={6}>
+        <Flex minH="100vh" align="center" justify="center" bg="gray.50" px={4} py={12}>
             <Box
                 w="full"
-                maxW="lg" // Diubah dari md ke lg agar lebih lebar
-                bg={bgForm}
-                p={10} // Padding lebih besar agar form terlihat lebih lega
-                borderRadius="2xl" // Border radius lebih bulat agar terlihat modern
-                boxShadow="xl" // Shadow lebih tebal
+                maxW="md"
+                bg="white"
+                p={{ base: 6, md: 8 }}
+                borderRadius="xl"
+                boxShadow="sm"
+                border="1px"
+                borderColor="gray.200"
             >
-                <VStack gap={4} mb={10} textAlign="center">
-                    <Heading size="3xl" color="purple.500">Pet Clinic</Heading>
-                    <Text fontSize="lg" color={textSubtitle}>Silakan login untuk mengakses akun Anda</Text>
+                {/* Header Section */}
+                <VStack gap={1} mb={8} textAlign="center">
+                    <Heading size="xl" fontWeight="bold" color="gray.900">
+                        Staff Portal
+                    </Heading>
+                    <Text fontSize="sm" color="gray.500">
+                        Silakan login untuk mengakses sistem klinik
+                    </Text>
                 </VStack>
 
-                <Flex bg={bgToggleContainer} p={1.5} borderRadius="xl" mb={8}>
-                    {/* Button juga bisa kita tambahkan size lg */}
-                    <Button
-                        size="lg"
-                        flex={1}
-                        variant={loginType === 'customer' ? 'solid' : 'ghost'}
-                        colorScheme={loginType === 'customer' ? 'purple' : 'gray'}
-                        onClick={() => setLoginType('customer')}
-                    >
-                        Customer
-                    </Button>
-                    <Button
-                        size="lg"
-                        flex={1}
-                        variant={loginType === 'staff' ? 'solid' : 'ghost'}
-                        colorScheme={loginType === 'staff' ? 'purple' : 'gray'}
-                        onClick={() => setLoginType('staff')}
-                    >
-                        Staff Clinic
-                    </Button>
-                </Flex>
-
+                {/* Login Form */}
                 <form onSubmit={handleLogin}>
-                    <VStack gap={6}> {/* Gap antar input lebih lebar */}
-                        <Box w="full">
-                            <Text mb={3} fontSize="md" fontWeight="bold" color={textLabel}>
-                                Email
-                            </Text>
+                    <Stack gap={4}>
+                        <Field.Root>
+                            <Field.Label fontSize="sm" fontWeight="medium" color="gray.700">
+                                Email Address
+                            </Field.Label>
                             <Input
                                 name="email"
-                                size="lg" // Membuat input lebih tinggi dan teks lebih besar
+                                size="md"
+                                color="black"
                                 type="email"
-                                placeholder={`Masukkan email ${loginType} Anda`}
+                                placeholder="staff@petclinic.com"
                             />
-                        </Box>
+                        </Field.Root>
 
-                        <Box w="full">
-                            <Text mb={3} fontSize="md" fontWeight="bold" color={textLabel}>
+                        <Field.Root>
+                            <Field.Label fontSize="sm" fontWeight="medium" color="gray.700">
                                 Password
-                            </Text>
+                            </Field.Label>
                             <Input
                                 name="password"
-                                size="lg" // Membuat input lebih tinggi
+                                size="md"
+                                color="black"
                                 type="password"
-                                placeholder="Masukkan password Anda"
+                                placeholder="••••••••"
                             />
-                        </Box>
+                        </Field.Root>
 
                         <Button
                             type="submit"
-                            colorScheme="purple"
+                            colorPalette="purple"
                             w="full"
-                            size="xl" // Ukuran tombol paling besar
-                            mt={6}
+                            size="md"
+                            mt={4}
                         >
-                            Masuk sebagai {loginType === 'customer' ? 'Customer' : 'Staff'}
+                            Sign In Staff
                         </Button>
-                    </VStack>
+                    </Stack>
                 </form>
+
+                <Text mt={6} fontSize="xs" textAlign="center" color="gray.400">
+                    Hanya untuk staf klinik yang berwenang.
+                </Text>
             </Box>
         </Flex>
     );
